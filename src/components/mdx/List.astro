@@ -1,0 +1,30 @@
+---
+import Toc from '@components/Blog/Toc.astro';
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'ul'> {}
+
+let html = (await Astro.slots.render('default'))
+	.replaceAll(/<aside[^>]*>(?!<ul>).+(<ul)/g, '$1')
+	.replaceAll(/(<\/ul>)\s*.+<\/aside>/g, '$1');
+
+const props = Astro.props;
+
+const hashCount = [...html.matchAll(/<li[^>]+><a href="#/g)].length;
+const nonHashCount = [...html.matchAll(/<a href="[^#]/g)].length;
+const isToC = hashCount >= 2 && !nonHashCount;
+---
+
+{isToC ? <Toc {...props} set:html={html} /> : <ul {...props} set:html={html} />}
+
+<!-- 
+<aside class="z-50 fixed start-0 top-20 m-4 prose-sm p-6 xl:visible md:invisible">
+			<details class="open:bg-white dark:open:bg-slate-900 open:ring-1 open:ring-black/5 dark:open:ring-white/10 open:shadow-lg pb-6 rounded-[50px]" close>
+<summary class="p-8 border rounded-[50px_50px_0_100px] bg-black">
+	<span class="text-white text-2xl p-4 ">Table of Contents</span>
+</summary> 
+
+				<ul {...props} set:html={html} />
+</details>
+</aside>
+-->

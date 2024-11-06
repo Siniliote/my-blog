@@ -1,0 +1,25 @@
+---
+import { devIcons } from '@configs/dev-icons';
+import DevIcon from '@components/DevIcon.astro';
+import Icon from '@components/Icon.astro';
+---
+
+<section class="mt-24">
+	<span class="mb-8 flex items-center">
+		<div class="mr-4 rounded-full bg-back-subtle p-2">
+			<Icon icon="wrench" size="3em" />
+		</div>
+		<h3 class="w-fit border-b border-b-slate-200 text-2xl text-fore-primary md:text-3xl">
+			Mes outils
+		</h3>
+	</span>
+	<ul class="grid grid-cols-2 gap-6 sm:grid-cols-4">
+		{
+			devIcons.map((icon) => (
+				<li class="flex items-center">
+					<DevIcon icon={icon} />
+				</li>
+			))
+		}
+	</ul>
+</section>

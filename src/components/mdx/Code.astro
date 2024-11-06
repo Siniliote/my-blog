@@ -1,0 +1,16 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { classNames } from '@lib/classNames';
+
+interface Props extends HTMLAttributes<'code'> {}
+
+const html = await Astro.slots.render('default');
+
+const { class: className, ...props } = Astro.props;
+---
+
+<code
+	{...props}
+	class={classNames(className, 'not-prose bg-back-primary p-1 border-2 text-nowrap')}
+	set:html={html}
+/>

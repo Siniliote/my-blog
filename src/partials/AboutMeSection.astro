@@ -1,0 +1,10 @@
+---
+import { info } from '@data';
+---
+
+<section class="prose mt-24 lg:prose-xl prose-p:text-justify">
+	<h3 class="mb-8 w-fit border-b border-b-slate-200 text-2xl text-fore-primary md:text-3xl">
+		À propos de moi
+	</h3>
+	{info.aboutMe.map((item) => <p class="mb-8 space-y-4 text-fore-primary" set:html={item} />)}
+</section>

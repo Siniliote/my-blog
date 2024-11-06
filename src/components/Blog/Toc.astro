@@ -1,0 +1,30 @@
+---
+import Icon from '@components/Icon.astro';
+const props = Astro.props;
+
+let i = 1;
+let html = (await Astro.slots.render('default')).replaceAll('<li', () => `<li style="--i:${i++}"`);
+---
+
+<style>
+	details[open] summary span {
+		display: flex;
+	}
+</style>
+
+<aside
+	class="prose-sm fixed start-0 top-20 z-50 m-4 min-w-80 p-6 sm:invisible md:invisible xl:visible"
+>
+	<details
+		class="block max-w-80 pb-1 open:bg-white open:ring-1 open:ring-black/5 dark:open:bg-slate-900 dark:open:ring-white/10"
+		open
+	>
+		<summary class="flex w-fit items-center px-4 pt-4 text-2xl">
+			<div class="mr-4 rounded-full bg-black p-2 text-white shadow-lg ring-1">
+				<Icon icon="notebook" />
+			</div>
+			<span class="hidden">Sommaire</span>
+		</summary>
+		<ul class="list-none" {...props} set:html={html} />
+	</details>
+</aside>

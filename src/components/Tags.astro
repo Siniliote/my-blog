@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { classNames } from '@lib/classNames';
+
+import { ColorTags, colorToClassMap } from '@components/ColorPaths';
+
+interface Props {
+	color: keyof typeof ColorTags;
+	class?: string | undefined | null;
+}
+
+const attrs: HTMLAttributes<'span'> = {};
+
+const { color, class: className } = Astro.props;
+const colorPath = colorToClassMap[color];
+
+const extraClasses: string[] = ['w-fit text-xs font-medium me-2 px-2.5 py-0.5 rounded'];
+---
+
+<span {...attrs} class={classNames(className, extraClasses, colorPath)}>
+	<slot />
+</span>

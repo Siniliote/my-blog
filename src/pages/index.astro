@@ -1,0 +1,25 @@
+---
+import { info } from '@data';
+
+import Default from '@layouts/Default.astro';
+import IntroSection from '@partials/IntroSection.astro';
+import AboutMeSection from '@partials/AboutMeSection.astro';
+import my_avatar from '@assets/images/my_avatar.png';
+import GradientText from '@components/GradientText.astro';
+import ToolboxSection from '@partials/ToolboxSection.astro';
+import WorksSection from '@partials/WorksSection.astro';
+---
+
+<Default title="Mon projet">
+	<IntroSection avatar={my_avatar} socials="">
+		<Fragment slot="heading">
+			Salut, je m'appelle <GradientText from="from-[#4f39fa]" to="to-[#da62c4]">
+				{info.name}
+			</GradientText> 👋
+		</Fragment>
+		<Fragment slot="subHeading" set:html={info.jobDescription} />
+	</IntroSection>
+	<AboutMeSection bodyText="Hello" />
+	<ToolboxSection />
+	<WorksSection />
+</Default>

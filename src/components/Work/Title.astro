@@ -1,0 +1,31 @@
+---
+import FormattedDate from '@components/FormattedDate.astro';
+import Socials from '@components/Socials.astro';
+
+const { title, startedDate, endedDate, website, linkedin } = Astro.props;
+
+const options: object = {
+	year: 'numeric',
+	month: 'long',
+};
+---
+
+<div class="mt-4 py-4 text-center">
+	<h1 class="py-7 text-5xl font-extrabold">{title}</h1>
+	<div class="mb-2 text-gray-700">
+		<div class="justify-items-start">
+			<FormattedDate class="capitalize" date={startedDate} {options} />&nbsp;à&nbsp;
+			{
+				endedDate ? (
+					<FormattedDate class="capitalize italic" date={endedDate} {options} />
+				) : (
+					"Aujourd'hui"
+				)
+			}
+		</div>
+		<div class="justify-items-end">
+			<Socials {linkedin} {website} />
+		</div>
+	</div>
+	<hr />
+</div>

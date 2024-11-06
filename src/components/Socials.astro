@@ -1,0 +1,88 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+	resume?: string;
+	email?: string;
+	github?: string;
+	website?: string;
+	linkedin?: string;
+}
+
+const { resume, email, github, website, linkedin } = Astro.props;
+---
+
+<div class="flex items-center">
+	{
+		resume && (
+			<a
+				href={resume}
+				target="_blank"
+				rel="noreferrer"
+				class="mr-4 flex w-fit cursor-pointer items-center rounded border-2 border-accent px-4 py-1 text-fore-primary transition-colors hover:text-accent"
+			>
+				<span class="mr-2">
+					<Icon icon="scroll" size="1.5em" />
+				</span>
+				Curriculum Vitae
+			</a>
+		)
+	}
+
+	<span class="ml-2 flex gap-x-5">
+		{
+			website && (
+				<a href={website} class="group cursor-pointer" aria-label="Website" title="Website">
+					<Icon
+						icon="globe"
+						size="1.5em"
+						class:list={'text-xl text-fore-subtle transition-transform group-hover:-translate-y-2'}
+					/>
+				</a>
+			)
+		}
+		{
+			email && (
+				<a href={`mailto:${email}`} class="group cursor-pointer" aria-label="Email" title="Email">
+					<Icon
+						icon="at"
+						size="1.5em"
+						class:list={'text-xl text-fore-subtle transition-transform group-hover:-translate-y-2'}
+					/>
+				</a>
+			)
+		}
+		{
+			github && (
+				<a
+					href={`https://github.com/${github}`}
+					class="group cursor-pointer"
+					aria-label="Github"
+					title="Github"
+				>
+					<Icon
+						icon="github-logo"
+						size="1.5em"
+						class:list={'text-xl text-fore-subtle transition-transform group-hover:-translate-y-2'}
+					/>
+				</a>
+			)
+		}
+		{
+			linkedin && (
+				<a
+					href={`https://www.linkedin.com/in/${linkedin}`}
+					class="group cursor-pointer"
+					aria-label="Linkedin"
+					title="Linkedin"
+				>
+					<Icon
+						icon="linkedin-logo"
+						size="1.5em"
+						class:list={'text-xl text-fore-subtle transition-transform group-hover:-translate-y-2'}
+					/>
+				</a>
+			)
+		}
+	</span>
+</div>

@@ -1,0 +1,36 @@
+---
+import Footer from '@components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Metadata from '@components/Metadata.astro';
+import Header from '@components/Header.astro';
+---
+
+<html lang="fr" class="light" style="color-scheme: light;" transition:animate="none">
+	<head>
+		<Metadata title={SITE_TITLE} description={SITE_DESCRIPTION} />
+
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+		/>
+	</head>
+	<body>
+		<Header />
+		<div class="flex overflow-hidden bg-gray-50 py-16 dark:bg-gray-900">
+			<main
+				transition:animate="fade"
+				class="container mx-auto flex min-h-screen max-w-screen-lg flex-grow flex-col px-5 pt-16 md:px-12 lg:px-20"
+			>
+				<div class="px-4 pt-6 2xl:px-0">
+					<slot />
+				</div>
+			</main>
+		</div>
+		<Footer />
+	</body>
+</html>
+
+<script>
+	import 'flowbite';
+</script>

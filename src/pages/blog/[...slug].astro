@@ -1,0 +1,34 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BlogPost from '@layouts/BlogPost.astro';
+import Heading from '@components/mdx/Heading.astro';
+import List from '@components/mdx/List.astro';
+import ListItem from '@components/mdx/ListItem.astro';
+import Link from '@components/mdx/Link.astro';
+import Code from '@components/mdx/Code.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+
+const components = {
+	h2: Heading,
+	ul: List,
+	li: ListItem,
+	a: Link,
+	code: Code,
+};
+
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogPost {...post.data}>
+	<Content components={components} />
+</BlogPost>

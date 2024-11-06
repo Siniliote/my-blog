@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { iconPaths } from './IconPaths';
+import { classNames } from '@lib/classNames';
+
+interface Props {
+	icon: keyof typeof iconPaths;
+	class?: string | undefined | null;
+	size?: string;
+}
+const { icon, size, class: className } = Astro.props;
+
+const attrs: HTMLAttributes<'svg'> = {};
+const extraClasses: string[] = [];
+
+if (size) attrs.style = { '--size': size };
+---
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	width="60"
+	height="60"
+	viewBox="0 0 128 128"
+	{...attrs}
+	class={classNames(className, extraClasses)}
+	set:html={icon.icon}
+/>

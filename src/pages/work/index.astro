@@ -1,0 +1,83 @@
+---
+import Metadata from '@components//Metadata.astro';
+import Header from '@components//Header.astro';
+import Footer from '@components//Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '@components//FormattedDate.astro';
+import Tags from '@components/Tags.astro';
+import { ColorTags } from '@components/ColorPaths';
+
+const workEntries = (await getCollection('work')).sort(
+	(a, b) => b.data.startedDate.valueOf() - a.data.startedDate.valueOf(),
+);
+
+const dateOptions: object = {
+	year: 'numeric',
+	month: 'long',
+};
+---
+
+<!doctype html>
+<html lang="fr" class="light" style="color-scheme: light;" transition:animate="none">
+	<head>
+		<Metadata title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<div class="flex overflow-hidden bg-gray-50 py-16 dark:bg-gray-900">
+			<main
+				transition:animate="fade"
+				class="container mx-auto flex min-h-screen max-w-screen-lg flex-grow flex-col px-5 pt-16 md:px-12 lg:px-20"
+			>
+				<section>
+					<ul>
+						{
+							workEntries.map((workEntry) => (
+								<li class="group mb-10 ms-4">
+									<a
+										href={`/work/${workEntry.slug}`}
+										class="flex flex-col items-center rounded-lg border-gray-200 border-b-accent bg-white shadow hover:bg-gray-100 group-hover:border-b dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex-row"
+									>
+										<div class="flex flex-col justify-between p-4 leading-normal">
+											<div class="flex-row">
+												<FormattedDate
+													class="mb-1 text-sm font-normal capitalize leading-none text-gray-400 dark:text-gray-500"
+													date={workEntry.data.startedDate}
+													options={dateOptions}
+												/>
+												—
+												<span class="mb-1 text-sm font-normal capitalize leading-none text-gray-400 dark:text-gray-500">
+													{workEntry.data.endedDate ? (
+														<FormattedDate date={workEntry.data.endedDate} options={dateOptions} />
+													) : (
+														"Aujourd'hui"
+													)}
+												</span>
+											</div>
+
+											<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+												{workEntry.data.title}
+											</h3>
+											<p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+												{workEntry.data.metadata.excerpt}
+											</p>
+											<div class="flex">
+												{workEntry.data.tags.map((tag) => (
+													<Tags color={ColorTags.AMBER} class="mb-4 me-4 md:me-6">
+														{tag}
+													</Tags>
+												))}
+											</div>
+										</div>
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</section>
+			</main>
+		</div>
+		<Footer />
+	</body>
+</html>

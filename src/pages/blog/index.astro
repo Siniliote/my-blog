@@ -1,0 +1,114 @@
+---
+import Metadata from '@components//Metadata.astro';
+import Header from '@components//Header.astro';
+import Footer from '@components//Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '@components//FormattedDate.astro';
+
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="fr" class="light" style="color-scheme: light;" transition:animate="none">
+	<head>
+		<Metadata title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			ul {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 2rem;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+			}
+			ul li {
+				width: calc(50% - 1rem);
+			}
+			ul li * {
+				text-decoration: none;
+				transition: 0.2s ease;
+			}
+			ul li:first-child {
+				width: 100%;
+				margin-bottom: 1rem;
+				text-align: center;
+			}
+			ul li:first-child img {
+				width: 100%;
+			}
+			ul li:first-child .title {
+				font-size: 2.369rem;
+			}
+			ul li img {
+				margin-bottom: 0.5rem;
+				border-radius: 12px;
+			}
+			ul li a {
+				display: block;
+			}
+			.title {
+				margin: 0;
+				color: rgb(var(--black));
+				line-height: 1;
+			}
+			.date {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+			@media (max-width: 720px) {
+				ul {
+					gap: 0.5em;
+				}
+				ul li {
+					width: 100%;
+					text-align: center;
+				}
+				ul li:first-child {
+					margin-bottom: 0;
+				}
+				ul li:first-child .title {
+					font-size: 1.563em;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<div class="flex overflow-hidden bg-gray-50 py-16 dark:bg-gray-900">
+			<main
+				transition:animate="fade"
+				class="container mx-auto flex min-h-screen max-w-screen-lg flex-grow flex-col px-5 pt-16 md:px-12 lg:px-20"
+			>
+				<div class="px-4 pt-6 2xl:px-0">
+					<section>
+						<ul>
+							{
+								posts.map((post) => (
+									<li class="group">
+										<a class="text-transition group-hover:text-accent" href={`/blog/${post.slug}/`}>
+											<img
+												class="shadow group-hover:shadow-lg group-hover:shadow-black"
+												width={720}
+												height={360}
+												src={post.data.heroImage}
+												alt=""
+											/>
+											<h4 class="title pt-4 text-2xl font-bold">{post.data.title}</h4>
+											<p class="date">
+												<FormattedDate date={post.data.pubDate} />
+											</p>
+										</a>
+									</li>
+								))
+							}
+						</ul>
+					</section>
+				</div>
+			</main>
+		</div>
+		<Footer />
+	</body>
+</html>

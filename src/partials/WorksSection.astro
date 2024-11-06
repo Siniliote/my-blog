@@ -1,0 +1,47 @@
+---
+import FormattedDate from '@components/FormattedDate.astro';
+import Icon from '@components/Icon.astro';
+import { getCollection } from 'astro:content';
+
+const workEntries = (await getCollection('work')).sort((a, b) => {
+	return Date.parse(b.data.startedDate) - Date.parse(a.data.startedDate);
+});
+
+const dateOptions: object = {
+	year: 'numeric',
+	month: 'long',
+};
+---
+
+<section class="mt-24">
+	<span class="mb-8 flex items-center">
+		<div class="mr-4 rounded-full bg-back-subtle p-2">
+			<Icon icon="suitcase" size="3em" />
+		</div>
+		<h3 class="w-fit border-b border-b-slate-200 text-2xl text-fore-primary md:text-3xl">
+			Parcours professionnel
+		</h3>
+	</span>
+	<ol class="relative border-s border-gray-200 dark:border-gray-700">
+		{
+			workEntries.map((workEntry) => (
+				<li class="group mb-10 ms-4">
+					<a href={`/work/${workEntry.slug}`} class="border-b-accent group-hover:border-b">
+						<div class="absolute -start-1.5 mt-1.5 h-3 w-3 rounded-full border border-white bg-gray-200 group-hover:bg-accent dark:border-gray-900 dark:bg-gray-700" />
+						<FormattedDate
+							class="mb-1 text-sm font-normal capitalize leading-none text-gray-400 dark:text-gray-500"
+							date={workEntry.data.startedDate}
+							options={dateOptions}
+						/>
+						<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+							{workEntry.data.title}
+						</h3>
+						<p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
+							{workEntry.data.metadata.excerpt}
+						</p>
+					</a>
+				</li>
+			))
+		}
+	</ol>
+</section>

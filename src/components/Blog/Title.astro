@@ -1,0 +1,20 @@
+---
+import FormattedDate from '@components/FormattedDate.astro';
+
+const { title, pubDate, updatedDate } = Astro.props;
+---
+
+<div class="mt-4 py-4 text-center">
+	<div class="mb-2 text-gray-700">
+		<FormattedDate date={pubDate} />
+		{
+			updatedDate && (
+				<div class="italic">
+					Last updated on <FormattedDate date={updatedDate} />
+				</div>
+			)
+		}
+	</div>
+	<h1 class="py-7 text-5xl font-extrabold">{title}</h1>
+	<hr />
+</div>
